@@ -1,0 +1,36 @@
+server:
+  port: 4000
+  forward-headers-strategy: native
+
+spring:
+  datasource:
+    url: jdbc:mariadb://10.10.40.136:3306/JEDAI_CUBE
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: pdsw_app
+    password: pdswDev136!
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  data:
+    redis:
+      lettuce:
+        pool:
+          max-active: 10
+          max-idle: 10
+          min-idle: 2
+      host: 10.10.40.139
+      port: 6379
+      password: nexus!234
+      timeout: 2000
+  # mvc:
+  #   async:
+  #     request-timeout: 0
+
+restapi:
+  baseurl: http://10.10.40.145:8010
+
+sse:
+  timeout: 300000
