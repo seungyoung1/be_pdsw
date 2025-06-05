@@ -3,7 +3,7 @@
  * DESC : 상담사 상태정보 리스트 항목 DTO
  * VER  : V1.0
  * PROJ : 웹 기반 PDS 구축 프로젝트
- * Copyright 2024 Dootawiz All rights reserved
+ * Copyright 2025 Dootawiz All rights reserved
  *------------------------------------------------------------------------------
  *                               MODIFICATION LOG
  *------------------------------------------------------------------------------
