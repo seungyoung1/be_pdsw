@@ -34,3 +34,8 @@ restapi:
 
 sse:
   timeout: 300000
+
+cors:
+  allowed-origins:
+    - https://pdsw232.nexuscommunity.kr
+    - http://localhost:3000
