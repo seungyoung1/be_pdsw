@@ -13,6 +13,7 @@
  * 2025/03/19  최상원                       사용자별 환경설정 가져오기 추가
  *------------------------------------------------------------------------------*/
 package com.nexus.pdsw.controller;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -90,5 +91,47 @@ public class AuthorityController {
   ) {
     ResponseEntity<? super PostEnvironmentSettingSaveResponseDto> response = authorityService.postEnvironmentSetting(requestDto);
     return response;
+  }
+
+  /*
+   *  사용자의 ip 가져오기
+   *
+   *  @param HttpServletRequest request
+   *  @return ResponseEntity<String>
+   */
+  @PostMapping("/getIp")
+  public ResponseEntity<String> getClientIp(HttpServletRequest request) {
+
+    String clientIp = request.getHeader("X-Forwarded-For");
+    if (clientIp == null || clientIp.isEmpty() || "unknown".equalsIgnoreCase(clientIp)) {
+      clientIp = request.getHeader("Proxy-Client-IP");
+    }
+    if (clientIp == null || clientIp.isEmpty() || "unknown".equalsIgnoreCase(clientIp)) {
+      clientIp = request.getHeader("WL-Proxy-Client-IP");
+    }
+    if (clientIp == null || clientIp.isEmpty() || "unknown".equalsIgnoreCase(clientIp)) {
+      clientIp = request.getHeader("HTTP_CLIENT_IP");
+    }
+    if (clientIp == null || clientIp.isEmpty() || "unknown".equalsIgnoreCase(clientIp)) {
+      clientIp = request.getHeader("HTTP_X_FORWARDED_FOR");
+    }
+    if (clientIp == null || clientIp.isEmpty() || "unknown".equalsIgnoreCase(clientIp)) {
+      clientIp = request.getHeader("X-Real-IP");
+    }
+    if (clientIp == null || clientIp.isEmpty() || "unknown".equalsIgnoreCase(clientIp)) {
+      clientIp = request.getHeader("X-RealIP");
+    }
+    if (clientIp == null || clientIp.isEmpty() || "unknown".equalsIgnoreCase(clientIp)) {
+      clientIp = request.getHeader("REMOTE_ADDR");
+    }
+    if (clientIp == null || clientIp.isEmpty() || "unknown".equalsIgnoreCase(clientIp)) {
+      clientIp = request.getRemoteAddr();
+    }
+
+    // 여러 IP가 있을 경우 첫 번째 IP만 사용
+    if (clientIp != null && clientIp.contains(",")) {
+      clientIp = clientIp.split(",")[0].trim();
+    }
+    return ResponseEntity.ok(clientIp);  // 200 OK + clientIp 문자열 응답
   }
 }
