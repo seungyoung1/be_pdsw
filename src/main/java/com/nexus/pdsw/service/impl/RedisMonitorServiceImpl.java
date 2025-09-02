@@ -316,7 +316,7 @@ public class RedisMonitorServiceImpl implements RedisMonitorService {
     int waitingCounselorCnt = 0;
 
     try {
-      
+
       //API 인증 세션키가 없이 호출하였을 때
       if (requestDto.getSessionKey() == null || requestDto.getSessionKey().trim().isEmpty()) {
         return GetSendingProgressStatusResponseDto.notExistSessionKey();
@@ -382,7 +382,10 @@ public class RedisMonitorServiceImpl implements RedisMonitorService {
           int i = 0;
 
           for (Object tenantKey : redisTenantList.keySet()) {
-            redisKey = "monitor:tenant:" + tenantKey + ":campaign:dial";
+            redisKey = "monitor:tenant:" + tenantKey + ":campaign-dial";
+            // redisKey = "monitor:tenant:" + tenantKey + ":campaign:dial";
+            /* campaignId-dial_sequence 구조로 변경 09-02 BQSQ-38
+            */
   
             redisSendingProgressStatus = hashOperations.entries(redisKey);
             arrJson = (JSONArray) jsonParser.parse(redisSendingProgressStatus.values().toString());  
@@ -404,7 +407,10 @@ public class RedisMonitorServiceImpl implements RedisMonitorService {
           bodyMap.put("filter", filterMap);
 
         } else {
-          redisKey = "monitor:tenant:" + requestDto.getTenantId() + ":campaign:dial";
+          redisKey = "monitor:tenant:" + requestDto.getTenantId() + ":campaign-dial";
+          // redisKey = "monitor:tenant:" + tenantKey + ":campaign:dial";
+          /* campaignId-dial_sequence 구조로 변경 09-02 BQSQ-38
+           */
   
           redisSendingProgressStatus = hashOperations.entries(redisKey);
           arrJson = (JSONArray) jsonParser.parse(redisSendingProgressStatus.values().toString());  
@@ -498,55 +504,13 @@ public class RedisMonitorServiceImpl implements RedisMonitorService {
           e.printStackTrace();
         }
 
-        //로그인 상담사 테넌트ID에 따른 캠페인에 할당된 상담원 가져오기
-        // for (Map<String, Object> mapCampaign : mapCampaignList) {
-
-        //   bodyMap.clear();
-        //   filterMap.clear();
-        //   arrCampaignId[0] = (int) mapCampaign.get("campaign_id");
-          
-        //   filterMap.put("campaign_id", arrCampaignId);
-        //   bodyMap.put("filter", filterMap);
-
-        //   try {
-        //     //캠페인에 할당된 상담원 가져오기 API 요청
-        //     Map<String, Object> apiAssignedCounselor =
-        //       webClient
-        //         .post()
-        //         .uri(uriBuilder ->
-        //           uriBuilder
-        //             .path("/pds/collections/campaign-agent")
-        //             .build()
-        //         )
-        //         .bodyValue(bodyMap)
-        //         .retrieve()
-        //         .bodyToMono(Map.class)
-        //         .block();
-
-        //     //해당 캠페인에 할당된 상담원ID 가져오기 API 요청이 실패했을 때
-        //     if (!apiAssignedCounselor.get("result_code").equals(0)) {
-        //       ResponseDto result = new ResponseDto(apiAssignedCounselor.get("result_code").toString(), apiAssignedCounselor.get("result_msg").toString());
-        //       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
-        //     }
-
-        //     //캠페인에 할당된 상담원이 존재하면
-        //     if (apiAssignedCounselor.get("result_data") != null) {            
-        //       List<Map<String, Object>> mapAssignedCounselorList = (List<Map<String, Object>>) apiAssignedCounselor.get("result_data");
-
-        //       //할당된 상담원 리스트에 누적 추가
-        //       for (Map<String, Object> mapAssignedCounselor : mapAssignedCounselorList) {
-        //         assignedCounselorList.addAll((List<Object>) mapAssignedCounselor.get("agent_id"));
-        //       }
-        //     }            
-        //   } catch (Exception e) {
-        //     e.printStackTrace();
-        //   }
-        // }
-
       //특정 캠페인인 경우
       } else {
-
-        redisKey = "monitor:tenant:" + requestDto.getTenantId() + ":campaign:dial";
+        redisKey = "monitor:tenant:" + requestDto.getTenantId() + ":campaign-dial";
+        // redisKey = "monitor:tenant:" + tenantKey + ":campaign:dial";
+        /* campaignId-dial_sequence 구조로 변경 09-02 BQSQ-38
+         */
+        // redisKey = "monitor:tenant:" + requestDto.getTenantId() + ":campaign:dial";
         redisSendingProgressStatus = hashOperations.entries(redisKey);
         arrJson = (JSONArray) jsonParser.parse(redisSendingProgressStatus.values().toString());  
           
