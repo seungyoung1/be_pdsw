@@ -495,7 +495,7 @@ public class RedisMonitorServiceImpl implements RedisMonitorService {
           }
 
           //캠페인에 할당된 상담원이 존재하면
-          if (apiAssignedCounselor.get("result_data") != null) {            
+          if (apiAssignedCounselor.get("result_data") != null) {             
             List<Map<String, Object>> mapAssignedCounselorList = (List<Map<String, Object>>) apiAssignedCounselor.get("result_data");
 
             //할당된 상담원 리스트에 누적 추가
