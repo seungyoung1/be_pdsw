@@ -538,7 +538,7 @@ public class RedisMonitorServiceImpl implements RedisMonitorService {
         Arrays.stream(requestDto.getAgentIds()).distinct().collect(Collectors.toList()) : new ArrayList<>();
       
       
-      for (Object assignedCounselor : assignedCounselorDuplicatesRemovedList){
+      // for (Object assignedCounselor : assignedCounselorDuplicatesRemovedList){
 
         for (Object tenantKey : _tenantId.split(",")) {
 
@@ -550,9 +550,9 @@ public class RedisMonitorServiceImpl implements RedisMonitorService {
 
             JSONObject jsonObjCounselorState = (JSONObject) jsonCounselorState;
 
-            strCounselorId = jsonObjCounselorState.get("EMPLOYEE").toString();
+            // strCounselorId = jsonObjCounselorState.get("EMPLOYEE").toString();
 
-            if (assignedCounselor.toString().equals(strCounselorId)) {
+            // if (assignedCounselor.toString().equals(strCounselorId)) {
 
               JSONObject jsonObjCounselorStateData = (JSONObject) jsonObjCounselorState.get("Data");
               strStateCode = jsonObjCounselorStateData.get("state").toString();
@@ -560,12 +560,12 @@ public class RedisMonitorServiceImpl implements RedisMonitorService {
               //203(휴식), 204(대기), 205(처리), 206(후처리)
               if (strStateCode.equals("204")) {
                 waitingCounselorCnt += 1 ;
-                break;
+                // break;
               }
-            }
+            // }
           }
         }
-      }
+      // }
 
     } catch (Exception e) {
       e.printStackTrace();
